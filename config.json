@@ -1,0 +1,18 @@
+{
+  "nodes": {
+    "Obeexoo1ce": {
+      "labels": ["hk", "hong-kong"]
+    },
+    "EiheiQu9Th": {
+      "labels": ["vn", "hanoi"]
+    }
+  },
+  "jobs": {
+    "all": [
+      { "url": "https://www.facebook.com" },
+      { "url": "https://www.google.com" },
+      { "url": "https://github.com" },
+      { "url": "https://d2huz0w41q806y.cloudfront.net/hello.txt" }
+    ]
+  }
+}
