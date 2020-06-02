@@ -12,7 +12,11 @@
       { "url": "https://www.facebook.com" },
       { "url": "https://www.google.com" },
       { "url": "https://github.com" },
-      { "url": "https://d2huz0w41q806y.cloudfront.net/hello.txt" }
+      { "url": "https://docs.fastly.com/img/logo-lockup.svg" },
+      { "url": "https://wrm-13b48.kxcdn.com/license.txt" },
+      { "url": "https://assets.static-upwork.com/assets/Adquiro/5099b0f/bundles/upworkvscomponents/hiw/images/find.svg" },
+      { "url": "https://tech-bizflycloud.cdn.vccloud.vn/web_images/logo_bizfly.svg" },
+      { "url": "https://d1pticz0uvhz4n.cloudfront.net/manifest.json" }
     ]
   }
 }
