@@ -10,8 +10,9 @@ if [[ -z $AGENT ]]; then
 fi
 
 TEMPDIR="/dev/shm"
+TIMESTAMP=$(date +%s%N)
 
-CONFIG=$(curl -s -w '%{response_code}' https://monitoring.r41.co/jobs/$AGENT -o "$TEMPDIR/$AGENT")
+CONFIG=$(curl -s -w '%{response_code}' https://monitoring.r41.co/jobs/$AGENT?c=$TIMESTAMP -o "$TEMPDIR/$AGENT")
 
 if [[ $CONFIG -lt 200 ]] || [[ $CONFIG -ge 300 ]]; then
   echo "Failed to load job configs."
@@ -20,7 +21,6 @@ fi
 
 ENDPOINTS=$(cat "$TEMPDIR/$AGENT")
 
-TIMESTAMP=$(date +%s%N)
 echo > $TEMPDIR/bzprobe-$TIMESTAMP.txt
 
 for endpoint in $ENDPOINTS ; do
