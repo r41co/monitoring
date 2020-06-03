@@ -26,14 +26,7 @@ echo > $TEMPDIR/bzprobe-$TIMESTAMP.txt
 for endpoint in $ENDPOINTS ; do
   host=$(echo $endpoint | awk -F/ '{ print $1"/"$2"/"$3 }')
   cat <<EOF >$TEMPDIR/bzprobe-format.txt
-time_namelookup,endpoint=$host,agent=$AGENT,response_code=%{response_code} value=%{time_namelookup} $TIMESTAMP\n
-time_connect,endpoint=$host,agent=$AGENT,response_code=%{response_code} value=%{time_connect} $TIMESTAMP\n
-time_appconnect,endpoint=$host,agent=$AGENT,response_code=%{response_code} value=%{time_appconnect} $TIMESTAMP\n
-time_pretransfer,endpoint=$host,agent=$AGENT,response_code=%{response_code} value=%{time_pretransfer} $TIMESTAMP\n
-time_redirect,endpoint=$host,agent=$AGENT,response_code=%{response_code} value=%{time_redirect} $TIMESTAMP\n
-time_starttransfer,endpoint=$host,agent=$AGENT,response_code=%{response_code} value=%{time_starttransfer} $TIMESTAMP\n
-time_total,endpoint=$host,agent=$AGENT,response_code=%{response_code} value=%{time_total} $TIMESTAMP\n
-ssl_verify_result,endpoint=$host,agent=$AGENT,response_code=%{response_code} value=%{ssl_verify_result} $TIMESTAMP\n
+response,endpoint=$host,agent=$AGENT,response_code=%{response_code} time_namelookup=%{time_namelookup},time_connect=%{time_connect},time_appconnect=%{time_appconnect},time_pretransfer=%{time_pretransfer},time_redirect=%{time_redirect},time_starttransfer=%{time_starttransfer},time_total=%{time_total},ssl_verify_result=%{ssl_verify_result} $TIMESTAMP\n
 EOF
 
   curl -w "@$TEMPDIR/bzprobe-format.txt" -o /dev/null -s "$endpoint" >> $TEMPDIR/bzprobe-$TIMESTAMP.txt
