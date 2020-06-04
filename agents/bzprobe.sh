@@ -10,6 +10,7 @@ if [[ -z $AGENT ]]; then
 fi
 
 TEMPDIR="/dev/shm"
+MAX_QUEUE=100
 TIMESTAMP=$(date +%s%N)
 
 CONFIG=$(curl -s -w '%{response_code}' https://monitoring.r41.co/jobs/$AGENT?c=$TIMESTAMP -o "$TEMPDIR/$AGENT")
@@ -21,7 +22,11 @@ fi
 
 ENDPOINTS=$(cat "$TEMPDIR/$AGENT")
 
-echo > $TEMPDIR/bzprobe-$TIMESTAMP.txt
+if [[ -f $TEMPDIR/bzprobe-queue.txt ]]; then
+  cat $TEMPDIR/bzprobe-queue.txt > $TEMPDIR/bzprobe-$TIMESTAMP.txt
+else
+  echo > $TEMPDIR/bzprobe-$TIMESTAMP.txt
+fi
 
 for endpoint in $ENDPOINTS ; do
   host=$(echo $endpoint | awk -F/ '{ print $1"/"$2"/"$3 }')
@@ -33,5 +38,10 @@ EOF
   rm -rf $TEMPDIR/bzprobe-format.txt
 done
 
-curl -i -XPOST "https://r41.co/m/" --data-binary "@$TEMPDIR/bzprobe-$TIMESTAMP.txt"
+code=$(curl -s -w '%{response_code}' -XPOST "https://r41.co/m/" --data-binary "@$TEMPDIR/bzprobe-$TIMESTAMP.txt")
+
+if [[ $code -lt 200 ]] || [[ $code -gt 299 ]]; then
+  cat $TEMPDIR/bzprobe-$TIMESTAMP.txt | tail -n $MAX_QUEUE >> $TEMPDIR/bzprobe-queue.txt
+fi
+
 rm -rf $TEMPDIR/bzprobe-$TIMESTAMP.txt
