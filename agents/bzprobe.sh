@@ -24,6 +24,7 @@ ENDPOINTS=$(cat "$TEMPDIR/$AGENT")
 
 if [[ -f $TEMPDIR/bzprobe-queue.txt ]]; then
   cat $TEMPDIR/bzprobe-queue.txt > $TEMPDIR/bzprobe-$TIMESTAMP.txt
+  rm -rf $TEMPDIR/bzprobe-queue.txt
 else
   echo > $TEMPDIR/bzprobe-$TIMESTAMP.txt
 fi
